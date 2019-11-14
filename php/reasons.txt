@@ -1,0 +1,109 @@
+relax
+family
+pictur
+photo
+active
+hike
+walk
+exercise
+climbing
+pets
+animals
+play
+swing
+child
+dogs
+warm
+cool
+dogs
+wildlife
+water
+swim
+fish
+camp
+fire
+hik
+pet-free
+adventur
+backwood
+boat
+beach
+nature
+bbq
+barbecue
+cabin
+sightseeing
+isolated
+peaceful
+trail
+athletic
+soccer
+softball
+picnic
+basketball
+baseball
+softball
+sports
+grill
+view
+jogging
+party
+explor
+cave
+waterfall
+plant
+photo
+restrooms
+volleyball
+handicap
+bik
+wading
+wade
+pool
+river
+stream
+stargaze
+star
+astronomy
+backpack
+chill
+cook
+bird
+socializing
+anti-socializing
+exciting
+outside
+outdoors
+
+
+abstracts--->
+active			children					
+adventure
+
+words with a count > 0 in a given category are averaged by dividing each by their counts.
+words with zero count are not included in average. 
+	
+	
+	
+	To calculate the weights for the words will need to log(total number of documents/number of pages it appears in) * number of times it appears in the document
+	(tf-idf)
+	
+	FOR IMPLEMINTATION PLEASE SEE ARTISTIC LOOKING DIAGRAM IN NOTES -- THIS IS VERY IMPORTANT 
+	
+	-I will take the log of [[the number of documents (584) times the inverse of the number of documents in which the word appears] multiplied by [the number of times the word appears in the corpus] multiplied by [the inverse of the number of times it appears in the document]] 
+	...
+	that will then be multiplied by the number of times it appears in the document
+	
+	
+	
+	On a side note, could put in a check to see if word starts with a negator.  This would actually decrease the words value by that much, such that when combined with other words, its value gets subtracted from the aggregate of other words in that category.  
+	*negators=
+		anti-
+		non
+		not [previous word would have to be cached for this functionality]
+		[ending with]-free
+		
+	Future suggestions: 
+	1. Do an analysis of known items to find associations among their frequencies.  Once you have established most common item sets then start running analysis on web pages trying to find high likelihood of other words when those item sets appear.  These other words would then be added to the keywords for that category if the interest is also high.  The interest can be computed by subtracting the likelihood that the word will appear in the sentence from the likelihood that the word will appear with item set in a sentence.  If the interest is high, adding the word to the keywords for that category would build language for bot.  Perhaps could also use associations to create weights based on interest and/or likelihood.
+
+		

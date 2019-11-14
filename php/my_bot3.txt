@@ -1,0 +1,86 @@
+<?php
+set_time_limit(0);
+$x=0;
+$uniqueCounter=-1;
+$myWebPlaceholder=0;
+$ch=curl_init("facebook.com");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Accept-Language: en-us'
+));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$subject = curl_exec($ch);
+//echo $subject;
+//$pattern = '/[<a href=\"]{1}.+[\">]{1}.+[<\/a>]{1}/';
+//preg_match($pattern, $subject, $myMatch);
+//$url=preg_match_all('/href=.*(www\.(.+?)\.(com|us|org|gov)(?!\/(fishboat|huntwild)).{0,100}?)\"/', $subject, $myMatch);
+	//foreach ($myMatch as $myMatch2){
+foreach ($myMatch[1] as $myMatch3){
+	if($x>0){
+		foreach ($myWebSites as $myWebSite){
+			if($myMatch3==$myWebSite){
+				$uniqueCounter=$myWebPlaceholder;
+			}
+			else{
+				$myWebPlaceholder++;
+			}
+		}
+		$myWebPlaceholder=0;
+	}
+	if($uniqueCounter<0){
+		$myWebSites[$x]=$myMatch3;
+		$myWebSitesCounter[$x]=1;
+		//echo "$myMatch3 count:";
+		//echo "$myWebSitesCounter[$x]</br>";
+		$x++;
+	}
+	else{
+		$myWebSitesCounter[$uniqueCounter]=$myWebSitesCounter[$uniqueCounter]+1;
+		//echo "$myMatch3 count:$myWebSitesCounter[$uniqueCounter]</br>";
+	}
+	$uniqueCounter=-1;
+}
+$uniqueCounter=0;
+foreach($myWebSites as $myWebsite){
+	echo"$myWebsite count:$myWebSitesCounter[$uniqueCounter]</br>";
+	$uniqueCounter++;
+	//if ($uniqueCounter<50){
+		$parkAttributes=getAttributes($myWebsite);
+		if (!is_null($parkAttributes[1])){
+			foreach($parkAttributes[1] as $parkAttribute)
+				echo("<p style=\"margin-left:10px;\">".$parkAttribute."</p>");
+		}
+	//}
+}
+$uniqueCounter=-1;
+
+
+function getAttributes($myWebsite){
+	set_time_limit(0);
+	$ch=curl_init($myWebsite);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Accept-Language: en-us'
+	));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);	
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+	curl_setopt($ch, CURLOPT_TIMEOUT_MS, 2000);
+	$attribute = curl_exec($ch);
+	$trueness=preg_match_all('/.*<title>(.*)<\/title>.*/',$attribute,$title);
+	return $title;
+	curl_close($ch);
+}
+	//}
+	//foreach ($match as $matchme){
+		//foreach($matchme as $matchmee){
+	//	echo $matchme."</br>";
+	//	}
+	//}
+	//echo $match[0][5];
+	//$info = parse_url($match[0]);
+
+//echo $info['scheme'].'://'.$info['host']; // http://www.mydomain.com
+?>
